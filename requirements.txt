@@ -101,7 +101,7 @@ molecule-docker==2.1.0
     # via molecule
 mypy-extensions==1.0.0
     # via black
-packaging==23.0
+packaging==26.0
     # via
     #   ansible-compat
     #   ansible-core
@@ -111,6 +111,7 @@ packaging==23.0
     #   docker
     #   mkdocs
     #   molecule
+    #   wheel
 pathspec==0.11.0
     # via
     #   black
@@ -190,7 +191,7 @@ wcmatch==8.4.1
     # via ansible-lint
 websocket-client==1.5.1
     # via docker
-wheel==0.38.4
+wheel==0.46.2
     # via pip-tools
 yamllint==1.29.0
     # via
