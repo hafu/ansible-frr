@@ -29,7 +29,7 @@ build==0.10.0
     # via pip-tools
 certifi==2022.12.7
     # via requests
-cffi==1.15.1
+cffi==2.0.0
     # via cryptography
 chardet==5.1.0
     # via binaryornot
@@ -47,7 +47,7 @@ click-help-colors==0.9.1
     # via molecule
 cookiecutter==2.1.1
     # via molecule
-cryptography==41.0.6
+cryptography==46.0.5
     # via ansible-core
 distro==1.8.0
     # via selinux
@@ -178,8 +178,10 @@ tomli==2.0.1
     #   black
     #   build
     #   pyproject-hooks
-typing-extensions==4.8.0
-    # via black
+typing-extensions==4.15.0
+    # via
+    #   black
+    #   cryptography
 urllib3==2.5.0
     # via
     #   docker
