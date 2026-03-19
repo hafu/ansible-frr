@@ -11,17 +11,9 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - stretch
-        - buster
         - bookworm
-    - name: EL
-      versions:
-        - '7'
-        - '8'
     - name: Ubuntu
       versions:
-        - bionic
-        - focal
         - jammy
         - noble
 
