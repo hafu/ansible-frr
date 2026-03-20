@@ -2,3 +2,6 @@
 frr_packages:
   - frr
   - frr-pythontools
+
+# override defauts, use modern approach
+frr_apt_repository: "deb [signed-by=/etc/apt/keyrings/frrouting.gpg] https://deb.frrouting.org/frr {{ ansible_distribution_release }} {{ frr_apt_version }}"
