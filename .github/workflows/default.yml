@@ -11,7 +11,6 @@ jobs:
         molecule_distro:
           - debian11
           - debian12
-          # - fedora
           - ubuntu2204
           - ubuntu2404
 
