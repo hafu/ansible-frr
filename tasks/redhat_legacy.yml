@@ -1,6 +1,6 @@
 ---
 - name: Redhat(legacy) | Installing Pre-Reqs
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: ["iproute", "sudo", "which"]
     state: present
   become: true
@@ -41,7 +41,7 @@
     frr_rpms: "{{ frr_rpms }} + [ '{{ frr_package_deb }}' ]"
 
 - name: Redhat(legacy) | Installing FRR packages
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "{{ frr_rpms }}"
     state: present
   become: true
