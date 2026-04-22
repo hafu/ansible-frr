@@ -2,6 +2,58 @@
 - name: Debian | Add upstream repo
   when: frr_use_upstream_repo_debian
   block:
+    - name: Debian | Ensure /etc/apt/keyrings directory exists
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+      become: true
+      when: >
+        (
+          ansible_distribution == "Debian" and
+          ansible_distribution_major_version|int > 12
+        ) or
+        (
+          ansible_distribution == "Ubuntu" and
+          ansible_distribution_major_version|int > 24
+        )
+   
+    - name: Debian | Get FRR apt repo key
+      ansible.builtin.get_url:
+        url: https://deb.frrouting.org/frr/keys.gpg
+        dest: /etc/apt/keyrings/frrouting.gpg
+        owner: root
+        group: root
+        mode: "0644"
+      become: true
+      when: >
+        (
+          ansible_distribution == "Debian" and
+          ansible_distribution_major_version|int > 12
+        ) or
+        (
+          ansible_distribution == "Ubuntu" and
+          ansible_distribution_major_version|int > 24
+        )
+
+    - name: Debian | Ensure gnupg is present
+      ansible.builtin.package:
+        name:
+          - gnupg
+        state: present
+      become: true
+      when: >
+        (
+          ansible_distribution == "Debian" and
+          ansible_distribution_major_version|int > 12
+        ) or
+        (
+          ansible_distribution == "Ubuntu" and
+          ansible_distribution_major_version|int > 24
+        )
+
     - name: Debian | Install FRR apt repo key
       ansible.builtin.apt_key:
         url: https://deb.frrouting.org/frr/keys.asc
@@ -9,6 +61,15 @@
       become: true
       register: add_repository_key
       ignore_errors: true
+      when: >
+        (
+          ansible_distribution == "Debian" and
+          ansible_distribution_major_version|int <= 12
+        ) or
+        (
+          ansible_distribution == "Ubuntu" and
+          ansible_distribution_major_version|int <= 24
+        )
 
     - name: Debian | Ensure curl & gnupg is present (on older systems without SNI).
       ansible.builtin.package:
@@ -17,7 +78,19 @@
           - gnupg
         state: present
       become: true
-      when: add_repository_key is failed
+      when: >
+        add_repository_key is defined and
+        add_repository_key is failed and
+        (
+          (
+            ansible_distribution == "Debian" and
+            ansible_distribution_major_version|int <= 12
+          ) or
+          (
+            ansible_distribution == "Ubuntu" and
+            ansible_distribution_major_version|int <= 24
+          )
+        )
 
     - name: Debian | Add FRR apt key (alternative for older systems without SNI).
       ansible.builtin.shell:
@@ -28,7 +101,19 @@
         executable: "/bin/bash"
       become: true
       changed_when: false
-      when: add_repository_key is failed
+      when: >
+        add_repository_key is defined and
+        add_repository_key is failed and
+        (
+          (
+            ansible_distribution == "Debian" and
+            ansible_distribution_major_version|int <= 12
+          ) or
+          (
+            ansible_distribution == "Ubuntu" and
+            ansible_distribution_major_version|int <= 24
+          )
+        )
 
     - name: Debian | Ensure apt-transport-https is present to enable https repositories
       ansible.builtin.package:
